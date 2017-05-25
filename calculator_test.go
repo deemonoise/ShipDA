@@ -38,10 +38,15 @@ func TestCalculate(t *testing.T) {
 		t.Error("Got", err)
 	}
 
-	res, _ := req.Calculate()
-	if err != nil {
-		//t.Error("Got", &aerr.Error)
+	res, aerr := req.Calculate()
+	if aerr != nil {
+		t.Error("Got", &aerr.Error)
 	}
 
-	log.Println(res)
+	jsn, err := json.Marshal(res)
+	if err != nil {
+		t.Error("Got", err)
+	}
+
+	log.Println(string(jsn))
 }

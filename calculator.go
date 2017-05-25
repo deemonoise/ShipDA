@@ -2,8 +2,8 @@ package main
 
 import (
 	"ShipDA/sdt"
-	"log"
 	"net/http"
+	"log"
 )
 
 type calcRequest struct {
@@ -61,7 +61,7 @@ type deliveryTime struct {
 
 type calcResponse struct {
 	Success bool       `json:"success"`
-	Result  calcResult `json:"result"`
+	Result  []calcResult `json:"result"`
 }
 
 type calcResult struct {
@@ -77,7 +77,7 @@ type calcResult struct {
 }
 
 func (req *calcRequest) Calculate() (calcResponse, *appError) {
-	var res calcResponse
+	res := calcResponse{Success: false}
 	p := sdt.Parcel{
 		CityFrom:     "Москва",
 		CityTo:       req.Req.ShipmentAddress.City,
@@ -89,20 +89,13 @@ func (req *calcRequest) Calculate() (calcResponse, *appError) {
 		Zip:          req.Req.ShipmentAddress.Index,
 	}
 
-	log.Printf("%#v", p)
-
 	crs, rpost, err := Sdt.Calculate(p, []int{58, 62})
 	if err != nil {
 		e := NewAppError(http.StatusInternalServerError, err)
 		return res, &e
 	}
 
-	log.Printf("%v", rpost)
 	for _, c := range crs.Courier {
-		log.Println("delivery_type:", c.ServiceId)
-		//log.Printf("%v", c.ToDoor)
-		//log.Printf("%v", c.ToPoint)
-
 		for _, cr := range c.ToDoor {
 			for _, t := range cr.Tariffs {
 				cresult := calcResult{
@@ -114,7 +107,7 @@ func (req *calcRequest) Calculate() (calcResponse, *appError) {
 					Type: "courier",
 					Group: cr.ProviderKey,
 				}
-				log.Printf("%#v", cresult)
+				res.Result = append(res.Result, cresult)
 			}
 		}
 
@@ -132,15 +125,18 @@ func (req *calcRequest) Calculate() (calcResponse, *appError) {
 				}
 
 				for _, ptId := range t.PointIds {
-					pt := pickpoint{
-						Code: ptId,
+					pt, aerr := getPointByExternalId(ptId)
+					if aerr != nil {
+						return res, aerr
 					}
 					cresult.PickuppointList = append(cresult.PickuppointList, pt)
 				}
-				log.Printf("%#v", cresult)
+				res.Result = append(res.Result, cresult)
 			}
 		}
 	}
+
+	log.Printf("%#v", rpost)
 
 	return res, nil
 }

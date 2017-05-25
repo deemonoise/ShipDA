@@ -193,3 +193,19 @@ func (points *pickpoints) scan(rows *sqlx.Rows) *appError {
 
 	return nil
 }
+
+func getPointByExternalId(externalId string) (pickpoint, *appError) {
+	var point pickpoint
+
+	sel := `SELECT
+		  provider_key, type, available_operation, cod, payment_card, name, lat, lng, code, post_index, country_code,
+		  region, area, city, street, street_type, house, block, office, url, email, phone, timetable, description
+		FROM shipda_pickpoints WHERE external_id = ?`
+	err := db.Select(point ,sel, externalId)
+	if err != nil {
+		e := NewAppError(http.StatusInternalServerError, err)
+		return point, &e
+	}
+	point.format()
+	return point, nil
+}
