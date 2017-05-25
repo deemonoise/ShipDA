@@ -7,6 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"errors"
 	"net/http"
+	"database/sql"
 )
 
 type pickpointCoordinates struct {
@@ -202,7 +203,7 @@ func getPointByExternalId(externalId int) (pickpoint, *appError) {
 		  region, area, city, street, street_type, house, block, office, url, email, phone, timetable, description
 		FROM shipda_pickpoints WHERE external_id = ?`
 	err := db.QueryRowx(sel, externalId).StructScan(&point)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		e := NewAppError(http.StatusInternalServerError, err)
 		return point, &e
 	}
