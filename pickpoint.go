@@ -194,7 +194,7 @@ func (points *pickpoints) scan(rows *sqlx.Rows) *appError {
 	return nil
 }
 
-func getPointByExternalId(externalId string) (pickpoint, *appError) {
+func getPointByExternalId(externalId int) (pickpoint, *appError) {
 	var point pickpoint
 
 	sel := `SELECT

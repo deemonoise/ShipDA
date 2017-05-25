@@ -53,7 +53,7 @@ type courierToPoint struct {
 		TariffProviderId string    `xml:"tariffProviderId"`
 		DaysMax          int       `xml:"daysMax"`
 		DeliveryTypes    string    `xml:"deliveryTypes"`
-		PointIds         []string  `xml:"pointIds>text"`
+		PointIds         []int     `xml:"pointIds>text"`
 	} `xml:"tariffs>item"`
 }
 
