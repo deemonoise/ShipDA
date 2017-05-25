@@ -35,6 +35,7 @@ func TestCalculate(t *testing.T) {
 
 	Cfg = Config{
 		Database: Database{
+			Host: "172.20.100.214",
 			Port: "3306",
 			Db: "dpribylnov_common",
 			User: "root",
