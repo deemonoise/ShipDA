@@ -52,7 +52,7 @@ func TestCalculate(t *testing.T) {
 
 	res, aerr := req.Calculate()
 	if aerr != nil {
-		t.Error("Got", &aerr.Error)
+		t.Error("Got", aerr.Error)
 	}
 
 	jsn, err := json.Marshal(res)
