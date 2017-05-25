@@ -33,6 +33,16 @@ func TestCalculate(t *testing.T) {
 
 	Sdt =  sdt.Init("https://api.accordpost.ru/ff/v1/wsrv", "300", "300")
 
+	Cfg = Config{
+		Database: Database{
+			Db: "dpribylnov_common",
+			User: "root",
+			Password: "magento",
+		},
+	}
+
+	dbInit()
+
 	err := json.Unmarshal([]byte(j), &req)
 	if err != nil {
 		t.Error("Got", err)
