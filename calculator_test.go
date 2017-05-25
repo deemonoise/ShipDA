@@ -35,6 +35,7 @@ func TestCalculate(t *testing.T) {
 
 	Cfg = Config{
 		Database: Database{
+			Port: "3306",
 			Db: "dpribylnov_common",
 			User: "root",
 			Password: "magento",
