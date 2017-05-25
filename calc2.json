@@ -1,0 +1,39 @@
+{
+  "clientId": "",
+  "calculate": {
+    "packages": [
+      {
+        "weight": 1000,
+        "width": 1000,
+        "length": 1000,
+        "height": 1000
+      }
+    ],
+    "payerType": "",
+    "declaredValue": 0,
+    "cod": 0
+    },
+    "shipmentAddress": {
+      "index": "",
+      "countryIso": "",
+      "region": "",
+      "regionId": 0,
+      "city": "",
+      "cityId": 0,
+      "cityType": "",
+      "street": "",
+      "streetId": 0,
+      "streetType": "",
+      "building": "",
+      "flat": "",
+      "intercomCode": "",
+      "floor": 0,
+      "block": 0,
+      "house": "",
+      "metro": "",
+      "notes": "",
+      "text": "",
+      "terminal": ""
+    }
+  }
+}

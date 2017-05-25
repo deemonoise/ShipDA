@@ -1,0 +1,18 @@
+Port = "8080"
+Logtofile = false
+Logfile = "logs/shipda.log"
+
+[database]
+Host = "172.20.100.214"
+Port = "3306"
+Db = "dpribylnov_common"
+User = "root"
+Password = "magento"
+
+[SDT]
+ApiUrl = "https://api.accordpost.ru/ff/v1/wsrv"
+PartnerId = "300"
+Password = "300"
+
+
+
